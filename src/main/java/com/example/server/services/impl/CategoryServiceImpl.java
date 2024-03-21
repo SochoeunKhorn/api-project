@@ -54,26 +54,23 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void update(Category category) throws WebException {
-        if(getCategoryById(category.getId()) != null){
-            categoryRepository.save(category);
+        var findId = categoryRepository.findById(category.getId());
+        if(findId.isEmpty()){
+            throw  new WebException("Category Name already exist", "Category Name already exist", "Err-001");
         }
+        category.setStatus("ACT");
+        categoryRepository.save(category);
+
     }
 
     @Override
     public void delete(Category category) throws WebException {
-        if(getCategoryById(category.getId()) != null){
-            category.setStatus("DEL");
-            categoryRepository.save(category);
+        var findId = categoryRepository.findById(category.getId());
+        if(findId.isEmpty()){
+            throw  new WebException("Category Name already exist", "Category Name already exist", "Err-001");
         }
+        category.setStatus("DEL");
+        categoryRepository.save(category);
     }
 
-    @Override
-    public void deleteById(Integer id) throws WebException {
-        var checkID = getCategoryById(id);
-        if(checkID != null){
-            categoryRepository.deleteById(id);
-        }else{
-            throw new WebException("ID Not Found","ID Not Found","Err-002");
-        }
-    }
 }

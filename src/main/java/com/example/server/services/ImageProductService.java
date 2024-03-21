@@ -14,4 +14,6 @@ public interface ImageProductService {
     ImageProduct getById(String id);
 
     String uploadPhoto(String id, MultipartFile file);
+
+    void delete(String id);
 }

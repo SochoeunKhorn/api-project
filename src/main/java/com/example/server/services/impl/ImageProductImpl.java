@@ -48,6 +48,11 @@ public class ImageProductImpl implements ImageProductService {
         return photoUrl;
     }
 
+    @Override
+    public void delete(String id) {
+        repository.deleteById(id);
+    }
+
     private final Function<String, String> fileExtension = filename -> Optional.of(filename).filter(name -> name.contains("."))
             .map(name -> "." + name.substring(filename.lastIndexOf(".") + 1)).orElse(".png");
 
@@ -59,7 +64,7 @@ public class ImageProductImpl implements ImageProductService {
             Files.copy(image.getInputStream(), fileStorageLocation.resolve(filename), REPLACE_EXISTING);
             return ServletUriComponentsBuilder
                     .fromCurrentContextPath()
-                    .path("/product/image/" + filename).toUriString();
+                    .path("image/" + filename).toUriString();
         }catch (Exception exception) {
             throw new RuntimeException("Unable to save image");
         }

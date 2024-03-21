@@ -22,6 +22,7 @@ public class Product {
     private String barcode;
     private String description;
     private double qtyOnHand;
+    private String image;
 
     @Column(length = 1)
     private String stockType;

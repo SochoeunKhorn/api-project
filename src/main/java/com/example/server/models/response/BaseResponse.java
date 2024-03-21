@@ -10,11 +10,15 @@ public class BaseResponse {
     private String message;
     private String messageKh;
     private Object data;
-    private int page;
-    private int limit;
-    private int totalLimit;
 
     public BaseResponse() {
+    }
+
+    public BaseResponse(String code, String message, String messageKh, Object data) {
+        this.code = code;
+        this.message = message;
+        this.messageKh = messageKh;
+        this.data = data;
     }
 
     public void getSuccess(Object object){
@@ -24,15 +28,6 @@ public class BaseResponse {
         this.data = object;
     }
 
-    public void getSuccessPagination(Object object,int page,int limit,int totalLimit){
-        this.code = "200";
-        this.message = "Get Pagination Successfully";
-        this.messageKh = "ទាញយកបានជោគជ័យ";
-        this.page = page;
-        this.limit = limit;
-        this.data = object;
-        this.totalLimit = totalLimit;
-    }
 
     public void createSuccess(Object object){
         this.code = "200";

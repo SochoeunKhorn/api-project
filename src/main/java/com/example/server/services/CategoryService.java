@@ -15,5 +15,5 @@ public interface CategoryService {
 
     void delete(Category category) throws WebException;
 
-    void deleteById(Integer id) throws WebException;
+
 }

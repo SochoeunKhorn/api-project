@@ -26,10 +26,7 @@ public class CategoryController {
         baseResponse = new BaseResponse();
         try {
             var list = categoryService.getAllByStatus();
-            baseResponse.setCode("200");
-            baseResponse.setMessage("Get All Categories Successful");
-            baseResponse.setMessageKh("ទាញយក Category ទាំងអស់");
-            baseResponse.setData(list);
+            baseResponse.getSuccess(list);
             return new ResponseEntity<>(baseResponse, HttpStatus.OK);
         }
         catch (Throwable e){
@@ -48,10 +45,7 @@ public class CategoryController {
         baseResponse = new BaseResponse();
         try {
             var category = categoryService.getCategoryById(id);
-            baseResponse.setCode("200");
-            baseResponse.setMessage("Get Category By Id Successful");
-            baseResponse.setMessageKh("ទាញយក Category តាមរយះ ID");
-            baseResponse.setData(category);
+            baseResponse.getSuccess(category);
             return new ResponseEntity<>(baseResponse, HttpStatus.OK);
         }
         catch (WebException e){
@@ -69,7 +63,7 @@ public class CategoryController {
         try {
             log.info("Intercept Create Successfully");
             categoryService.create(req);
-            baseResponse.setMessage("create category successfully");
+            baseResponse.createSuccess(req);
             return new ResponseEntity<>(baseResponse,HttpStatus.OK);
         }catch (WebException e){
             baseResponse = new BaseResponse();
@@ -85,10 +79,8 @@ public class CategoryController {
         baseResponse = new BaseResponse();
         try {
             log.info("Intercept Update Successfully");
-            baseResponse.setMessage("Updated");
-            baseResponse.setCode("200");
-            baseResponse.setMessageKh("Category Updated");
             categoryService.update(req);
+            baseResponse.updateSuccess(req);
             return new ResponseEntity<>(baseResponse,HttpStatus.OK);
         }catch (WebException e){
             baseResponse.setCode(e.getCode());
@@ -103,10 +95,8 @@ public class CategoryController {
         baseResponse = new BaseResponse();
         try {
             log.info("Intercept Update Successfully");
-            baseResponse.setMessage("Delete");
-            baseResponse.setCode("200");
-            baseResponse.setMessageKh("Category Deleted");
             categoryService.delete(req);
+            baseResponse.deleteSuccess(req);
             return new ResponseEntity<>(baseResponse,HttpStatus.OK);
         }catch (WebException e){
             baseResponse.setCode(e.getCode());
@@ -116,27 +106,4 @@ public class CategoryController {
         }
     }
 
-    @PutMapping("/api/categories/update/{id}")
-    public ResponseEntity<Object> updateID(@PathVariable("id") Integer id){
-        return new ResponseEntity<>("Update By ID : "+id,HttpStatus.OK);
-    }
-
-    @DeleteMapping("/api/categories/delete/{id}")
-    public ResponseEntity<Object> deleteID(@PathVariable("id") Integer id) throws WebException{
-        baseResponse = new BaseResponse();
-        try{
-            baseResponse.setMessage("Deleted");
-            baseResponse.setMessageKh("Deleted");
-            baseResponse.setCode("200");
-            baseResponse.setData("Category ID : " + id + "delete successfully");
-            categoryService.deleteById(id);
-            return new ResponseEntity<>(baseResponse,HttpStatus.OK);
-        }catch (WebException e){
-            baseResponse.setMessage(e.getMessage());
-            baseResponse.setMessageKh(e.getMessageKh());
-            baseResponse.setCode(e.getCode());
-            return new ResponseEntity<>(baseResponse,HttpStatus.OK);
-        }
-
-    }
 }

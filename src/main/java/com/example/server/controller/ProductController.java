@@ -45,9 +45,8 @@ public class ProductController {
         baseResponse = new BaseResponse();
         try {
             var list = productService.getProductsByStatus(req);
-            var total = list.size();
-            log.info("total limit{}",total);
-            baseResponse.getSuccessPagination(list,req.getPage(),req.getLimit(),total);
+            log.info("Intercept get products pagination {}",list);
+            baseResponse.getSuccess(list);
             return new ResponseEntity<>(baseResponse, HttpStatus.OK);
         }
         catch (Throwable e){

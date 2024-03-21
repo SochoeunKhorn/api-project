@@ -33,6 +33,12 @@ public class ImageProductController {
         return new ResponseEntity<>(list,HttpStatus.OK);
     }
 
+    @GetMapping("/api/image_product/{id}")
+    public ResponseEntity<Object> getById(@PathVariable("id") String id){
+        var imageID = service.getById(id);
+        return new ResponseEntity<>(imageID,HttpStatus.OK);
+    }
+
     @PutMapping("/api/image_product/photo")
     public ResponseEntity<Object> uploadPhoto(@RequestParam("id") String id, @RequestParam("file")MultipartFile file){
         service.uploadPhoto(id,file);
@@ -42,5 +48,11 @@ public class ImageProductController {
     @GetMapping(path = "/image/{filename}", produces = { IMAGE_PNG_VALUE, IMAGE_JPEG_VALUE })
     public byte[] getPhoto(@PathVariable("filename") String filename) throws IOException {
         return Files.readAllBytes(Paths.get(Constants.PHOTO_DIRECTORY + filename));
+    }
+
+    @GetMapping("/api/image_product/delete/{id}")
+    public ResponseEntity<Object> delete(@PathVariable("id") String id){
+        service.delete(id);
+        return new ResponseEntity<>("delete successfully",HttpStatus.OK);
     }
 }
