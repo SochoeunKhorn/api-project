@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface CategoryService {
     List<Category> getAllCategories();
-    List<Category> getAllByStatus();
+    List<Category> getAllByStatus() throws WebException;
     Category getCategoryById(Integer id) throws WebException;
 
     void create(Category category) throws WebException;

@@ -17,13 +17,6 @@ public class UnitTypesController {
     private final UnitTypesService service;
     private BaseResponse baseResponse;
 
-    @GetMapping("/api/getAll")
-    public ResponseEntity<Page<UnitTypes>> getAllPage(@RequestParam(value = "page", defaultValue = "0") int page,
-                                                     @RequestParam(value = "size", defaultValue = "10") int size) {
-
-        return ResponseEntity.ok().body(service.getAllUnitTypes(page, size));
-    }
-
     @GetMapping("/api/unitTypes")
     public ResponseEntity<Object> getAllUnitTypes(){
         baseResponse = new BaseResponse();
@@ -40,26 +33,18 @@ public class UnitTypesController {
         return new ResponseEntity<>(baseResponse,HttpStatus.OK);
     }
 
-    @GetMapping("/api/unitTypes/status")
-    public ResponseEntity<Object> getAllByStatus(){
-        baseResponse = new BaseResponse();
-        var listByStatus = service.findByStatus("ACT");
-        baseResponse.getSuccess(listByStatus);
-        return new ResponseEntity<>(baseResponse,HttpStatus.OK);
-    }
-
     @PostMapping("/api/unitTypes/create")
     public ResponseEntity<Object> create(@RequestBody UnitTypes req){
         baseResponse = new BaseResponse();
         service.create(req);
-        baseResponse.createSuccess("");
+        baseResponse.createSuccess(req);
         return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
 
     @PostMapping("/api/unitTypes/update")
     public ResponseEntity<Object> update(@RequestBody UnitTypes req){
         baseResponse = new BaseResponse();
-        service.create(req);
+        service.update(req);
         baseResponse.updateSuccess(req);
         return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
@@ -72,12 +57,27 @@ public class UnitTypesController {
         return new ResponseEntity<>(baseResponse, HttpStatus.OK);
     }
 
-    @GetMapping("/api/unitTypes/delete/{id}")
+    /*@GetMapping("/api/unitTypes/delete/{id}")
     public ResponseEntity<Object> deleteById(@PathVariable("id") Integer id){
         baseResponse = new BaseResponse();
         service.deleteId(id);
         baseResponse.deleteSuccess(service.findById(id));
         return new ResponseEntity<>(baseResponse,HttpStatus.OK);
-    }
+    }*/
+
+    /*@GetMapping("/api/getAll")
+    public ResponseEntity<Page<UnitTypes>> getAllPage(@RequestParam(value = "page", defaultValue = "0") int page,
+                                                     @RequestParam(value = "size", defaultValue = "10") int size) {
+
+        return ResponseEntity.ok().body(service.getAllUnitTypes(page, size));
+    }*/
+
+    /*@GetMapping("/api/unitTypes/status")
+    public ResponseEntity<Object> getAllByStatus(){
+        baseResponse = new BaseResponse();
+        var listByStatus = service.findByStatus("ACT");
+        baseResponse.getSuccess(listByStatus);
+        return new ResponseEntity<>(baseResponse,HttpStatus.OK);
+    }*/
 
 }

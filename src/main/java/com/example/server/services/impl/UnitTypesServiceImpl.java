@@ -44,6 +44,7 @@ public class UnitTypesServiceImpl implements UnitTypesService {
     @Override
     public void create(UnitTypes req) {
         req.setId(0);
+        req.setStatus("ACT");
         unitTypesRepository.save(req);
     }
 
@@ -56,8 +57,16 @@ public class UnitTypesServiceImpl implements UnitTypesService {
     @Override
     public void deleteId(Integer id) {
         var find = unitTypesRepository.findById(id);
-        if(find.isPresent()){
+        if(find.isPresent()) {
             find.get().setStatus(Constants.STATUS_DISABLE);
+        }
+    }
+
+    @Override
+    public void update(UnitTypes req) {
+        var check = findById(req.getId());
+        if(check != null){
+            unitTypesRepository.save(req);
         }
     }
 }

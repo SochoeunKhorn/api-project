@@ -2,6 +2,7 @@ package com.example.server.controller;
 
 import com.example.server.exceptons.WebException;
 import com.example.server.models.Product;
+import com.example.server.models.ProductUnit;
 import com.example.server.models.request.PaginationRequest;
 import com.example.server.models.response.BaseResponse;
 import com.example.server.services.ProductService;
@@ -124,6 +125,43 @@ public class ProductController {
         }
         catch (WebException e){
             log.info("While get error update products fail",e);
+            baseResponse.setCode(e.getCode());
+            baseResponse.setMessage(e.getMessage());
+            baseResponse.setMessageKh(e.getMessageKh());
+            return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/api/products/units/{productId}")
+    public ResponseEntity<Object> getAllProductUnit(@PathVariable("productId") Integer productId){
+        log.info("Intercept get all products unit");
+        baseResponse = new BaseResponse();
+        try {
+            var list = productService.getAllProductUnitById(productId);
+            baseResponse.getSuccess(list);
+            return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+        }
+        catch (Throwable e){
+            log.info("While get error get all products ",e);
+            baseResponse.setCode("500");
+            baseResponse.setMessage("Get All products  Unsuccessful");
+            baseResponse.setMessageKh("បរាជ័យក្នុងការទាញយក products ទាំងអស់");
+            return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+        }
+
+    }
+
+    @PostMapping("/api/products/units/create")
+    public ResponseEntity<Object> createUnit(@RequestBody ProductUnit req){
+        log.info("Intercept create products {}",req);
+        baseResponse = new BaseResponse();
+        try {
+            productService.createUnit(req);
+            baseResponse.getSuccess(req);
+            return new ResponseEntity<>(baseResponse, HttpStatus.OK);
+        }
+        catch (WebException e){
+            log.info("While get error products unit ",e);
             baseResponse.setCode(e.getCode());
             baseResponse.setMessage(e.getMessage());
             baseResponse.setMessageKh(e.getMessageKh());

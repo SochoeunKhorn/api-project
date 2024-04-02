@@ -18,6 +18,8 @@ public interface UnitTypesService {
 
     void create(UnitTypes req);
 
+    void update(UnitTypes req);
+
     void delete(UnitTypes req);
 
     void deleteId(Integer id);

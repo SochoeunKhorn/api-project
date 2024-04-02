@@ -3,9 +3,11 @@ package com.example.server.services.impl;
 import com.example.server.constants.Constants;
 import com.example.server.exceptons.WebException;
 import com.example.server.models.Product;
+import com.example.server.models.ProductUnit;
 import com.example.server.models.request.PaginationRequest;
 import com.example.server.repo.CategoryRepository;
 import com.example.server.repo.ProductRepository;
+import com.example.server.repo.ProductUnitRepository;
 import com.example.server.services.CategoryService;
 import com.example.server.services.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +22,8 @@ import java.util.List;
 @Slf4j
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
-    private final CategoryService categoryService;
     private final CategoryRepository categoryRepository;
+    private final ProductUnitRepository productUnitRepository;
     @Override
     public List<Product> getAllProducts() throws WebException {
 
@@ -114,4 +116,18 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(req);
     }
 
+    @Override
+    public List<ProductUnit> getAllProductUnitById(Integer productId) throws WebException{
+        return productUnitRepository.getAllByProduct_IdOrderBySaleDefaultDesc(productId);
+    }
+
+    @Override
+    public void createUnit(ProductUnit req) throws WebException {
+        var unitExist = productUnitRepository.findByProduct_IdAndUnitTypes_Id(req.getProduct().getId(),req.getUnitTypes().getId());
+        if(unitExist != null)
+        {
+            throw new WebException("Product Unit is Existing","Product Unit is Existing",Constants.EXISTING);
+        }
+        productUnitRepository.save(req);
+    }
 }

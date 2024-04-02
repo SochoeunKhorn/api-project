@@ -3,8 +3,10 @@ package com.example.server.services;
 
 import com.example.server.exceptons.WebException;
 import com.example.server.models.Product;
+import com.example.server.models.ProductUnit;
 import com.example.server.models.request.PaginationRequest;
 
+import java.util.Iterator;
 import java.util.List;
 
 public interface ProductService {
@@ -18,4 +20,8 @@ public interface ProductService {
     void update(Product re) throws WebException;
 
     void delete(Product req) throws WebException;
+
+    List<ProductUnit> getAllProductUnitById(Integer productId) throws WebException;
+
+    void createUnit(ProductUnit req) throws WebException;
 }

@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> getAllByStatus() {
+    public List<Category> getAllByStatus() throws WebException{
         return categoryRepository.findAllByStatus("ACT");
     }
 
